@@ -1,2 +1,3 @@
 # database-labs
-My PostgreSQL database project
+My PostgreSQL database labs
+
