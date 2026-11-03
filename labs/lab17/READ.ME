@@ -1,1 +1,34 @@
 
+Practice: Data Import/Export and Backup in PostgreSQL
+
+Hands-on practice for the topic "Data Import/Export and Backup".
+
+Files
+File	What it does
+practice_copy.sql	Creates an employees table and runs CSV export and import with \copy
+practice_backup.sh	Creates backups with pg_dump / pg_dumpall, checks them, and restores into a test database
+Requirements
+PostgreSQL (ON_ERROR ignore needs version 17+; that line is commented out in the script)
+Client tools psql, pg_dump, pg_restore, createdb, dropdb available in PATH
+An empty practice database named practice_db
+How to run
+Create the database:
+bash
+   createdb -U postgres practice_db
+Run the SQL script (CSV files are created in the current folder):
+bash
+   psql -U postgres -d practice_db -f practice_copy.sql
+Create the backups (first replace USER_NAME at the top of the script):
+bash
+   chmod +x practice_backup.sh
+   ./practice_backup.sh
+
+Backups are saved to ~/pg_backups.
+
+What to check
+In practice_copy.sql, the row counts of employees and employees_copy match (5 and 5).
+The row with a NULL salary is still NULL after import, not the text N/A.
+In practice_backup.sh, the row counts in practice_db and test_restore are the same.
+Notes
+\copy runs on the client side and needs no superuser rights. Plain COPY reads and writes files on the server.
+The backup script deletes .dump files older than 7 days and recreates the test_restore database. Use it only on a practice database.
